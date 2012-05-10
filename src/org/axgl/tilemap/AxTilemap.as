@@ -234,9 +234,16 @@ package org.axgl.tilemap {
 					tile.y = y * tileHeight + this.y;
 					tile.previous.x = tile.x;
 					tile.previous.y = tile.y;
-					
+			
+          var directions:Boolean = false;		
+          directions = (tile.collision == ANY) ||
+                       ((target.previous.y < target.y) && (tile.collision & UP)) ||
+                       ((target.previous.y > target.y) && (tile.collision & DOWN)) ||
+                       ((target.previous.x > target.x) && (tile.collision & RIGHT)) ||
+                       ((target.previous.x < target.x) && (tile.collision & LEFT));
+      
 					if (collide) {
-						if (tile.collision != NONE && callback != null) {
+						if (directions && callback != null) {
 							if (callback(target, tile)) {
 								overlapped = true;
 							}
